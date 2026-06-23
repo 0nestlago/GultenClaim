@@ -1,0 +1,28 @@
+name: GultenClaim
+version: 1.2.1
+main: com.gulten.gultenclaim.GultenClaim
+api-version: '1.21'
+description: Chunk-based claiming plugin with economy, outpost, flight, and dynmap support.
+author: Gulten
+softdepend: [Vault, dynmap, QuickShop-Hikari]
+
+commands:
+  claim:
+    description: Main GultenClaim command.
+    usage: /claim [subcommand]
+    permission: gultenclaim.use
+    permission-message: '&cYou do not have permission to use this command!'
+
+permissions:
+  gultenclaim.use:
+    description: Allows basic claim operations.
+    default: true
+  gultenclaim.fly:
+    description: Allows flight toggling inside player's own claims.
+    default: op
+  gultenclaim.color:
+    description: Allows changing the dynmap marker color for the player's claims (/claim color). Assign via LuckPerms for premium ranks.
+    default: op
+  gultenclaim.admin:
+    description: Allows admin bypass, adminunclaim, and reload. Grants unlimited claims.
+    default: op

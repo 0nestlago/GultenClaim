@@ -1,0 +1,80 @@
+# GultenClaim Ana Yapılandırma Dosyası
+
+# Dil seçeneği: 'tr' (Türkçe) veya 'en' (İngilizce)
+language: tr
+
+# Claim ayarları
+claim:
+  # Varsayılan maksimum claim limiti (gultenclaim.max.<sayı> yetkisi yoksa geçerlidir)
+  default-max: 10
+  # Claim satın alma fiyatı (Vault gerekir)
+  price: 100.0
+  # Claim kaldırıldığında geri iade edilecek ücret yüzdesi (0 ile 100 arası)
+  refund-percentage: 50.0
+  # Her güvenilir (trust) üye için kazanılan ekstra claim hakkı. 0 = devre dışı
+  bonus-per-member: 1
+  # Üye bonusundan kazanılabilecek maksimum ek claim sayısı. 0 = sınırsız
+  member-bonus-max: 10
+
+# Outpost (Karakol) ayarları (Bitişik olmayan claimler)
+outpost:
+  # Varsayılan maksimum outpost limiti (gultenclaim.maxoutpost.<sayı> yetkisi yoksa geçerlidir)
+  default-max: 2
+  # Outpost satın alma fiyatı (Vault gerekir)
+  price: 1000.0
+  # Outpost kaldırıldığında geri iade edilecek ücret yüzdesi
+  refund-percentage: 50.0
+
+# Uçuş (Fly) ayarları
+flight:
+  # Otomatik uçuş iptal edildiğinde düşme hasarını önleme süresi (saniye)
+  fall-protection-seconds: 3
+
+# Dynmap entegrasyonu ayarları
+dynmap:
+  # Dynmap üzerinde claimlerin gösterilmesini etkinleştir
+  enabled: true
+  # Dynmap haritasında görünecek katman adı
+  layer-name: "GultenClaim"
+  # Claim alanlarının dynmap üzerindeki görünüm stilleri
+  styles:
+    standard:
+      fill-color: "#00FF00"
+      fill-opacity: 0.35
+      line-color: "#00AA00"
+      line-opacity: 0.8
+      line-weight: 2
+    outpost:
+      fill-color: "#FF0000"
+      fill-opacity: 0.35
+      line-color: "#AA0000"
+      line-opacity: 0.8
+      line-weight: 2
+
+# Koruma ayarları
+protection:
+  # Claim dışındaki oyuncuların blok kırmasını engelle
+  prevent-block-break: true
+  # Claim dışındaki oyuncuların blok koymasını engelle
+  prevent-block-place: true
+  # Claim dışındaki oyuncuların etkileşime girmesini engelle (sandık, kapı vb.)
+  prevent-interact: true
+  # Claim dışındaki oyuncuların claimdeki canlılara/araçlara zarar vermesini engelle (hayvanlar, zırh askıları, vagonlar)
+  prevent-entity-damage: true
+  # Patlamaların claim içindeki bloklara zarar vermesini engelle (TNT, creeper)
+  prevent-explosions: true
+  # Dışarıdan claim içine piston ile blok itilmesini veya çekilmesini engelle
+  prevent-piston-grief: true
+  # Claim içindeki tarım alanlarının oyuncular veya canavarlar tarafından çiğnenmesini engelle
+  prevent-crop-trample: true
+
+# Premium yetki tanımları — LuckPerms grubuna bu yetkileri vererek özellikleri etkinleştirin
+# Örnek: /lp group vip permission set gultenclaim.max.20 true
+# Örnek: /lp group vip permission set gultenclaim.fly true
+# Örnek: /lp group vip permission set gultenclaim.color true
+premium-perms-info:
+  # gultenclaim.max.<sayı>   -> Claim limiti (örnek: gultenclaim.max.20 = max 20 claim)
+  # gultenclaim.maxoutpost.<sayı> -> Karakol limiti
+  # gultenclaim.fly          -> Claim içinde uçuş modu
+  # gultenclaim.color        -> Dynmap claim rengi değiştirme (/claim color #RRGGBB)
+  # gultenclaim.admin        -> Admin bypass, adminunclaim, reload (sınırsız claim)
