@@ -137,6 +137,11 @@ GultenClaim lets players protect their land by claiming chunks directly in-game.
 4. Done! Players can start claiming right away.
 
 ---
+
+### 🐛 Issues & Support
+Found a bug or have a feature request? Please use the [GitHub Issues](https://github.com/0nestlago/GultenClaim/issues) page to report it.
+
+---
 ---
 
 ## 🇹🇷 Türkçe
@@ -269,3 +274,8 @@ GultenClaim, oyuncuların chunk'ları talep ederek arazilerini korumasına olana
 2. Sunucuyu yeniden başlat
 3. `plugins/GultenClaim/config.yml` dosyasını isteğine göre düzenle
 4. Hazır! Oyuncular hemen claim atmaya başlayabilir.
+
+---
+
+### 🐛 Hata Bildirimi & Destek
+Bir hata (bug) bulduysanız veya yeni bir özellik öneriniz varsa, lütfen [GitHub Issues](https://github.com/0nestlago/GultenClaim/issues) sayfasını kullanarak bildirin.
