@@ -80,3 +80,6 @@ command-help:
 # ── QuickShop-Hikari entegrasyonu ──────────────────────────────────────────────
 quickshop-no-permission-create: "&cBu claimde mağaza kurma yetkiniz yok! Sadece claim sahibi veya güvenilir oyuncular mağaza kurabilir."
 quickshop-no-permission-delete: "&cBu mağazayı silme yetkiniz yok! Sadece mağaza sahibi veya claim sahibi silebilir."
+
+# ── CombatLogX entegrasyonu ────────────────────────────────────────────────────
+combat-claim-entry-blocked: "&cSavaş modundayken başka bir oyuncunun claim'ine giremezsiniz!"

@@ -165,6 +165,15 @@ public class ProtectionListener implements Listener {
         if (target instanceof Player) {
             ClaimManager.ClaimedChunk claim = claimManager.getClaimAt(target.getLocation().getChunk());
             if (claim != null && !claim.settingPvp && !claimManager.hasBypass(player)) {
+                // CombatLogX: combat'tayken claim'de PvP'ye devam et (config'den)
+                boolean combatPvpAllowed = plugin.getConfigManager().getConfig()
+                        .getBoolean("combatlogx.allow-pvp-continue-in-claim", true);
+                var clx = plugin.getCombatLogX();
+                if (combatPvpAllowed && clx != null && clx.isEnabled()
+                        && clx.isInCombat(player) && clx.isInCombat((Player) target)) {
+                    // İkisi de combat'taysa PvP'ye izin ver
+                    return;
+                }
                 event.setCancelled(true);
                 player.sendMessage(plugin.getConfigManager().getMessage("pvp-disabled-in-claim"));
             }

@@ -1,6 +1,7 @@
 package com.gulten.gultenclaim.listener;
 
 import com.gulten.gultenclaim.GultenClaim;
+import com.gulten.gultenclaim.integration.CombatLogXIntegration;
 import com.gulten.gultenclaim.manager.ClaimManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -11,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -29,7 +31,13 @@ public class MovementListener implements Listener {
         this.claimManager = plugin.getClaimManager();
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        // Güncelleme varsa giriş yapan OP'a bildir
+        plugin.getUpdateChecker().notifyPlayer(event.getPlayer());
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerMove(PlayerMoveEvent event) {
         Location from = event.getFrom();
         Location to = event.getTo();
@@ -45,6 +53,21 @@ public class MovementListener implements Listener {
 
         ClaimManager.ClaimedChunk fromClaim = claimManager.getClaimAt(fromChunk);
         ClaimManager.ClaimedChunk toClaim = claimManager.getClaimAt(toChunk);
+
+        // ── CombatLogX: Combat'tayken Claim Girişini Engelle ──────────────────
+        if (toClaim != null && fromClaim == null) {
+            // Sadece dışarıdan claim'e giriş
+            CombatLogXIntegration clx = plugin.getCombatLogX();
+            boolean combatEntryBlocked = plugin.getConfigManager().getConfig()
+                    .getBoolean("combatlogx.block-claim-entry", true);
+
+            if (combatEntryBlocked && clx != null && clx.isEnabled() && clx.isInCombat(player)
+                    && !claimManager.hasBypass(player)) {
+                event.setCancelled(true);
+                player.sendMessage(plugin.getConfigManager().getMessage("combat-claim-entry-blocked"));
+                return;
+            }
+        }
 
         // 1. Boundary Crossing Titles
         checkBoundaryCrossing(player, fromClaim, toClaim);

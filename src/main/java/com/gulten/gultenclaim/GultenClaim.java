@@ -3,12 +3,14 @@ package com.gulten.gultenclaim;
 import com.gulten.gultenclaim.command.ClaimCommand;
 import com.gulten.gultenclaim.config.ConfigManager;
 import com.gulten.gultenclaim.database.DatabaseManager;
+import com.gulten.gultenclaim.integration.CombatLogXIntegration;
 import com.gulten.gultenclaim.integration.DynmapIntegration;
 import com.gulten.gultenclaim.integration.EconomyIntegration;
 import com.gulten.gultenclaim.integration.QuickShopIntegration;
 import com.gulten.gultenclaim.listener.MovementListener;
 import com.gulten.gultenclaim.listener.ProtectionListener;
 import com.gulten.gultenclaim.manager.ClaimManager;
+import com.gulten.gultenclaim.util.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
@@ -23,6 +25,8 @@ public final class GultenClaim extends JavaPlugin {
     private EconomyIntegration economyIntegration;
     private DynmapIntegration dynmapIntegration;
     private ClaimManager claimManager;
+    private CombatLogXIntegration combatLogXIntegration;
+    private UpdateChecker updateChecker;
 
     @Override
     public void onEnable() {
@@ -43,11 +47,14 @@ public final class GultenClaim extends JavaPlugin {
         // 5. Core Claim Manager
         this.claimManager = new ClaimManager(this);
 
+        // 6. CombatLogX Hook (opsiyonel)
+        this.combatLogXIntegration = new CombatLogXIntegration(this);
+
         // Register Listeners
         getServer().getPluginManager().registerEvents(new ProtectionListener(this), this);
         getServer().getPluginManager().registerEvents(new MovementListener(this), this);
 
-        // 6. QuickShop-Hikari Hook (opsiyonel)
+        // 7. QuickShop-Hikari Hook (opsiyonel)
         if (Bukkit.getPluginManager().getPlugin("QuickShop-Hikari") != null) {
             getServer().getPluginManager().registerEvents(new QuickShopIntegration(this), this);
             getLogger().info("QuickShop-Hikari entegrasyonu aktifleştirildi.");
@@ -61,6 +68,12 @@ public final class GultenClaim extends JavaPlugin {
             claimCommand.setTabCompleter(cmdExecutor);
         } else {
             getLogger().log(Level.SEVERE, "Failed to register /claim command! Command description missing in plugin.yml");
+        }
+
+        // 8. Güncelleme Kontrolü (config'den kapalı yapılabilir)
+        this.updateChecker = new UpdateChecker(this);
+        if (configManager.getConfig().getBoolean("update-checker.enabled", true)) {
+            updateChecker.checkAsync();
         }
 
         getLogger().log(Level.INFO, "GultenClaim plugin version " + getDescription().getVersion() + " has been successfully loaded!");
@@ -110,5 +123,13 @@ public final class GultenClaim extends JavaPlugin {
 
     public ClaimManager getClaimManager() {
         return claimManager;
+    }
+
+    public CombatLogXIntegration getCombatLogX() {
+        return combatLogXIntegration;
+    }
+
+    public UpdateChecker getUpdateChecker() {
+        return updateChecker;
     }
 }

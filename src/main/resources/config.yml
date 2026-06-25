@@ -78,3 +78,22 @@ premium-perms-info:
   # gultenclaim.fly          -> Claim içinde uçuş modu
   # gultenclaim.color        -> Dynmap claim rengi değiştirme (/claim color #RRGGBB)
   # gultenclaim.admin        -> Admin bypass, adminunclaim, reload (sınırsız claim)
+
+# CombatLogX entegrasyon ayarları
+combatlogx:
+  # Combat'tayken başka bir oyuncunun claim'ine girmeyi engelle
+  # true = giriş engellenir, false = serbest
+  block-claim-entry: true
+  # Combat'tayken claim içinde PvP'ye devam edilsin mi?
+  # Örnek: A oyuncusu B'yi vurdu, ikisi de combat tag'lendi.
+  #   B koşarak claim içine girdi — combat devam ediyorsa PvP sürsün mü?
+  #   true = ikisi de tagged'sa PvP devam eder (claim pvp toggle'ı bypass eder)
+  #   false = claim pvp toggle'ı her zaman geçerli
+  allow-pvp-continue-in-claim: true
+
+# Güncelleme kontrolü
+update-checker:
+  # Yeni sürüm kontrolünü etkinleştir
+  # Yeni sürüm bulunursa OP oyunculara giriş yapınca bildirim gönderilir
+  enabled: true
+

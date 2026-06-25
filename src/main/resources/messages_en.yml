@@ -68,3 +68,10 @@ command-help:
   - "&6/claim adminunclaim &7- Removes current claim as an admin."
   - "&6/claim reload &7- Reloads config and message files."
   - "&e====================================="
+
+# ── QuickShop-Hikari integration ────────────────────────────────────────────────
+quickshop-no-permission-create: "&cYou don't have permission to create a shop in this claim! Only the owner or trusted players can."
+quickshop-no-permission-delete: "&cYou don't have permission to delete this shop! Only the shop owner or claim owner can."
+
+# ── CombatLogX integration ──────────────────────────────────────────────────────
+combat-claim-entry-blocked: "&cYou cannot enter another player's claim while in combat!"
