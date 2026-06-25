@@ -1,6 +1,6 @@
 # 🏰 GultenClaim — Chunk Claiming Plugin
 
-> **v1.2.1 | Paper 1.21+ | Free & Open Source**
+> **v1.3.0 | Paper 1.21+ | Free & Open Source**
 
 ---
 
