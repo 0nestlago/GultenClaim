@@ -24,19 +24,45 @@ public class CombatLogXIntegration {
             if (clxPlugin == null) {
                 plugin.getLogger().info("CombatLogX bulunamadı, entegrasyon devre dışı.");
             } else {
-                // ICombatLogX arayüzünü yansıma ile bul
-                Class<?> iCombatLogX = Class.forName("com.gambino.combatlogx.api.ICombatLogX");
-                if (iCombatLogX.isInstance(clxPlugin)) {
-                    // getCombatManager() metodunu çağır
+                Class<?> iCombatLogX = null;
+                String[] possiblePackages = {
+                        "com.sirblobman.combatlogx.api.ICombatLogX",
+                        "com.github.sirblobman.combatlogx.api.ICombatLogX",
+                        "com.gambino.combatlogx.api.ICombatLogX"
+                };
+
+                for (String pkg : possiblePackages) {
+                    try {
+                        iCombatLogX = Class.forName(pkg);
+                        break;
+                    } catch (ClassNotFoundException ignored) {}
+                }
+
+                if (iCombatLogX != null && iCombatLogX.isInstance(clxPlugin)) {
                     Method getCombatManager = iCombatLogX.getMethod("getCombatManager");
                     this.combatManager = getCombatManager.invoke(clxPlugin);
 
-                    // ICombatManager sınıfını bul ve isInCombat metodunu hazırla
-                    Class<?> iCombatManager = Class.forName("com.gambino.combatlogx.api.manager.ICombatManager");
-                    this.isInCombatMethod = iCombatManager.getMethod("isInCombat", Player.class);
+                    Class<?> iCombatManager = null;
+                    String[] managerPackages = {
+                            "com.sirblobman.combatlogx.api.manager.ICombatManager",
+                            "com.github.sirblobman.combatlogx.api.manager.ICombatManager",
+                            "com.gambino.combatlogx.api.manager.ICombatManager"
+                    };
 
-                    tempEnabled = true;
-                    plugin.getLogger().info("CombatLogX entegrasyonu (reflection) aktif.");
+                    for (String pkg : managerPackages) {
+                        try {
+                            iCombatManager = Class.forName(pkg);
+                            break;
+                        } catch (ClassNotFoundException ignored) {}
+                    }
+
+                    if (iCombatManager != null) {
+                        this.isInCombatMethod = iCombatManager.getMethod("isInCombat", Player.class);
+                        tempEnabled = true;
+                        plugin.getLogger().info("CombatLogX entegrasyonu (reflection) başarıyla aktif edildi.");
+                    }
+                } else {
+                    plugin.getLogger().warning("CombatLogX bulundu ancak API arayüzü eşleşmedi.");
                 }
             }
         } catch (Exception e) {
